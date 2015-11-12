@@ -1,0 +1,33 @@
+{
+  "name": "astromo-auth",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Astromo JWT authentication server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/astromo/astromo-auth.git"
+  },
+  "keywords": [
+    "authentication"
+  ],
+  "author": "Michiel De Mey <de.mey.michiel@gmail.com> (http://demey.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/astromo/astromo-auth/issues"
+  },
+  "homepage": "https://github.com/astromo/astromo-auth#readme",
+  "dependencies": {
+    "ajv": "^1.4.8",
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.1",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "jsonwebtoken": "^5.4.1",
+    "lodash": "^3.10.1"
+  }
+}

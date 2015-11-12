@@ -1,0 +1,4 @@
+.gitignore
+.DS_Store
+.git/
+node_modules/
