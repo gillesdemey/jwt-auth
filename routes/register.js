@@ -1,6 +1,6 @@
 'use strict';
 
-var bcrypt = require('bcrypt');
+var PBKDF2 = require('../lib/pbkdf2');
 
 var config = require('../lib/config');
 var auth   = require('../lib/auth');
@@ -12,7 +12,8 @@ module.exports = function(req, res) {
     return res.status(400).end();
   }
 
-  bcrypt.hash(req.body.password, config.ROUNDS, function(err, hash) {
+  var password = new PBKDF2();
+  password.create(req.body.password, function(err, hash) {
     if (err) throw err;
 
     var user = {
