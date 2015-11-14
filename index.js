@@ -1,29 +1,30 @@
 'use strict';
 
+var app = require('./worker');
 var cluster = require('cluster');
+var debug = require('debug')('auth:master');
 
 process.env.PORT = process.env.PORT || 3000;
 
-cluster.setupMaster({
-  exec: 'worker.js'
-});
+if (cluster.isMaster) {
+  var numWorkers = require('os').cpus().length;
+  debug('Will listen on http://0.0.0.0:%d', process.env.PORT);
 
-var numWorkers = require('os').cpus().length;
-console.log('Master cluster setting up %d workers...', numWorkers);
-
-for (var i = 0; i < numWorkers; i++) {
-  cluster.fork(process.env);
+  for (var i = 0; i < numWorkers; i++) {
+    debug('Forking process %d ...', i);
+    cluster.fork(process.env);
+  }
+} else {
+  app.listen(process.env.PORT, function(err) {
+    if (err) throw err;
+    debug('Worker %d is listening', process.pid);
+  });
 }
 
-cluster.on('online', function(worker) {
-  console.log('Worker %d is online', worker.process.pid);
-});
-
 cluster.on('exit', function(worker, code, signal) {
-  console.log('worker %d died (%s). restarting...',
-    worker.process.pid, signal || code);
+  debug('worker %d died (%s). restarting...',
+    worker.process.pid,
+    signal || code);
 
   cluster.fork(process.env);
 });
-
-console.log('listening on http://localhost:%d', process.env.PORT);

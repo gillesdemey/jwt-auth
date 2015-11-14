@@ -26,8 +26,4 @@ app.disable('x-powered-by');
 app.post('/auth', auth);
 app.post('/register', register);
 
-app.listen(process.env.PORT, function(err) {
-  if(err) throw err;
-
-  console.log('Process ' + process.pid + ' is listening on ' + process.env.PORT);
-});
+module.exports = app;
