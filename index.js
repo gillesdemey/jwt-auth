@@ -1,36 +1,29 @@
 'use strict';
 
-var express    = require('express');
-var cors       = require('cors');
-var bodyParser = require('body-parser');
+var cluster = require('cluster');
 
-var auth       = require('./routes/auth');
-var register   = require('./routes/register');
+process.env.PORT = process.env.PORT || 3000;
 
-var app = express();
-var port = process.env.PORT || 3000;
-
-app.use(bodyParser.json()); // Use the JSON body parser
-app.use(cors()); // Enable CORS
-
-// Set the server name for debugging
-app.use(function(req, res, next) {
-  if (process.env.HOSTNAME) {
-    res.setHeader('Server', process.env.HOSTNAME);
-  }
-
-  next();
+cluster.setupMaster({
+  exec: 'worker.js'
 });
 
-// Disable Etag for our authentication service
-app.set('etag', false);
-app.disable('x-powered-by');
+var numWorkers = require('os').cpus().length;
+console.log('Master cluster setting up %d workers...', numWorkers);
 
-app.post('/auth', auth);
-app.post('/register', register);
+for (var i = 0; i < numWorkers; i++) {
+  cluster.fork(process.env);
+}
 
-app.listen(port, function(err) {
-  if(err) throw err;
-
-  console.log('listening on http://localhost:' + port);
+cluster.on('online', function(worker) {
+  console.log('Worker %d is online', worker.process.pid);
 });
+
+cluster.on('exit', function(worker, code, signal) {
+  console.log('worker %d died (%s). restarting...',
+    worker.process.pid, signal || code);
+
+  cluster.fork(process.env);
+});
+
+console.log('listening on http://localhost:%d', process.env.PORT);
