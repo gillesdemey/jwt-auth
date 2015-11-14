@@ -1,8 +1,6 @@
 'use strict';
 
 var PBKDF2 = require('../lib/pbkdf2');
-
-var config = require('../lib/config');
 var auth   = require('../lib/auth');
 var schema = require('../lib/schema');
 

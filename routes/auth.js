@@ -7,7 +7,7 @@ var PBKDF2 = require('../lib/pbkdf2');
 // Example user (should be a DB)
 var exampleUser = {
   email: 'michiel@demey.io',
-  password: 'sha256:100000:dGBNPXXL750EPMNrDrh3NgbsldTWF06uFLGWHdJhVYM=:54a1594853d61d6c5bd6dc6e46070d5d7e9cf50d39137edfc0c8c3e9a0314f7a'
+  password: 'sha256:100000:o/WYWXz+prVEEK6QyJHy7ZN7pNlngyl4G8MBJM977YE=:17633005a246861907dd71d1de9a4882eb47f67ff752a41110c6e4d71ba34db2'
 };
 
 module.exports = function(req, res) {
