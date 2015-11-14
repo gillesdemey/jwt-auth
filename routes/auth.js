@@ -19,6 +19,10 @@ module.exports = function(req, res) {
 
   // Load hash from your DB.
   bcrypt.compare(req.body.password, exampleUser.password, function(err, isMatch) {
+    if (err) {
+      return res.status(500).end();
+    }
+
     if (!isMatch || req.body.email !== exampleUser.email) {
       return res.status(401).end();
     }
