@@ -3,6 +3,7 @@
 var _      = require('lodash');
 var auth   = require('../lib/auth');
 var PBKDF2 = require('../lib/pbkdf2');
+var schema = require('../lib/schema');
 
 // Example user (should be a DB)
 var exampleUser = {
@@ -13,6 +14,10 @@ var exampleUser = {
 module.exports = function(req, res) {
 
   if (_.isEmpty(req.body)) {
+    return res.status(400).end();
+  }
+
+  if (!schema.user(req.body)) {
     return res.status(400).end();
   }
 
