@@ -2,7 +2,7 @@
 
 var _      = require('lodash');
 var auth   = require('../lib/auth');
-var PBKDF2 = require('../lib/pbkdf2');
+var PBKDF2 = require('painless-pbkdf2');
 var schema = require('../lib/schema');
 
 // Example user (should be a DB)
@@ -28,7 +28,7 @@ module.exports = function(req, res) {
     if (err) return res.status(500).end();
 
     if (!valid || req.body.email !== exampleUser.email) {
-      return res.status(401).end();
+      return res.sendStatus(401);
     }
 
     // Don't cache this API call

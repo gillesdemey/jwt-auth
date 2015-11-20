@@ -28,7 +28,8 @@
     "debug": "^2.2.0",
     "express": "^4.13.3",
     "jsonwebtoken": "^5.4.1",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "painless-pbkdf2": "astromo/pbkdf2#v0.1.0"
   },
   "devDependencies": {
     "mocha": "^2.3.3",
