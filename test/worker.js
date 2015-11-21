@@ -1,4 +1,4 @@
-/* global describe it */
+'use strict';
 
 // Set some environment variables
 process.env.HOSTNAME = 'local'

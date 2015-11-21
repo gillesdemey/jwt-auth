@@ -52,6 +52,9 @@
   // Warn when variables are defined but never used.
   "unused": true,
 
+  // mocha
+  "mocha": true,
+
   /*
    * RELAXING OPTIONS
    * =================
