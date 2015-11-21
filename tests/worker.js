@@ -1,15 +1,30 @@
-'use strict';
+/* global describe it */
 
-var app = require('../worker');
-var request = require('supertest');
+// Set some environment variables
+process.env.KEY = require('path').resolve(__dirname, './fixtures/keys/key')
+process.env.KEY_PASSPHRASE = 'test123'
 
-describe('Test server', function() {
+var app = require('../worker')
+var request = require('supertest')
 
-  it('Should return bad request', function(done) {
+describe('Test server', function () {
+  var token
+
+  it('Should return a JWT token when registering', function (done) {
     request(app)
-      .post('/auth')
-      .expect(400)
-      .end(done);
-  });
+      .post('/register')
+      .send({
+        email: 'test@astromo.io',
+        password: 'test123'
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw err
 
-});
+        token = res.body.token
+        console.log('token', token)
+        done()
+      })
+  })
+})
