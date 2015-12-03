@@ -19,7 +19,12 @@ module.exports = function (req, res) {
   }
 
   // Load hash from your DB.
-  var password = new PBKDF2(exampleUser.password)
+  var password
+  try {
+    password = new PBKDF2(exampleUser.password)
+  } catch (ex) {
+    return res.status(500).send({ 'error': 'Error parsing password' })
+  }
 
   password.validate(req.body.password, function (err, valid) {
     if (err) return res.status(500).end()
