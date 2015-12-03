@@ -1,6 +1,7 @@
 var express = require('express')
 var cors = require('cors')
 var bodyParser = require('body-parser')
+var noCache = require('connect-nocache')()
 
 var auth = require('./routes/auth')
 var register = require('./routes/register')
@@ -23,7 +24,8 @@ app.use(function (req, res, next) {
 app.set('etag', false)
 app.disable('x-powered-by')
 
-app.post('/auth', auth)
+// Don't cache this API call
+app.post('/auth', noCache, auth)
 app.post('/register', register)
 
 module.exports = app
