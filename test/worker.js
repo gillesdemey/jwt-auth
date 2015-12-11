@@ -6,7 +6,9 @@ process.env.KEY = require('path').resolve(__dirname, './fixtures/keys/key')
 process.env.KEY_PASSPHRASE = 'test123'
 
 var app = require('../worker')
+var async = require('async')
 var request = require('supertest')
+var naughty_strings = require('big-list-of-naughty-strings')
 
 describe('Register route', function () {
   // Password too short
@@ -75,4 +77,21 @@ describe('Authenticate route', function () {
       .expect('Content-Type', /json/)
       .expect(200, done)
   })
+
+  it('Should handle naughty strings', function (done) {
+    this.timeout(0) // this might take a while
+
+    async.each(naughty_strings, function (naughty, callback) {
+      if (naughty.length < 7) return callback()
+
+      request(app)
+        .post('/register')
+        .send({
+          email: 'test@astromo.io',
+          password: naughty
+        })
+        .expect(200, callback)
+    }, done)
+  })
+
 })

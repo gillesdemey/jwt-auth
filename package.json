@@ -33,6 +33,8 @@
     "painless-pbkdf2": "astromo/pbkdf2#v0.1.0"
   },
   "devDependencies": {
+    "async": "^1.5.0",
+    "big-list-of-naughty-strings": "^1.0.0",
     "mocha": "^2.3.3",
     "supertest": "^1.1.0"
   }
