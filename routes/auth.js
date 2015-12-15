@@ -7,9 +7,9 @@ var schema = require('../lib/schema')
 var exampleUser = {
   email: 'michiel@demey.io',
   password: 'sha256:100000:o/WYWXz+prVEEK6QyJHy7ZN7pNlngyl4G8MBJM977YE=:17633005a246861907dd71d1de9a4882eb47f67ff752a41110c6e4d71ba34db2',
-  permissions: {
-    ping: true
-  }
+  permissions: [
+    'ping'
+  ]
 }
 
 module.exports = function (req, res) {
