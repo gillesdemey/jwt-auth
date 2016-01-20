@@ -1,40 +1,50 @@
 {
-  "name": "astromo-auth",
+  "name": "jwt-auth",
   "private": true,
   "version": "0.1.0",
-  "description": "Astromo JWT authentication server",
+  "description": "JWT authentication server",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha test/*"
+    "test": "mocha test/*",
+    "build": "docker build --tag=waylay/authentication ."
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/astromo/astromo-auth.git"
+    "url": "git+ssh://git@github.com/gillesdemey/jwt-auth.git"
   },
   "keywords": [
     "authentication"
   ],
-  "author": "Michiel De Mey <de.mey.michiel@gmail.com> (http://demey.io)",
+  "author": {
+    "name": "Michiel De Mey",
+    "email": "de.mey.michiel@gmail.com",
+    "website": "https://demey.io"
+  },
+  "contributors": [
+    {
+      "name": "Gilles De Mey",
+      "email": "gilles.de.mey@gmail.com",
+      "website": "https://demey.io"
+    }
+  ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/astromo/astromo-auth/issues"
+    "url": "https://github.com/gillesdemey/jwt-auth/issues"
   },
-  "homepage": "https://github.com/astromo/astromo-auth#readme",
+  "homepage": "https://github.com/gillesdemey/jwt-auth#readme",
   "dependencies": {
-    "ajv": "^1.4.8",
+    "ajv": "^3.5.1",
     "body-parser": "^1.14.1",
-    "connect-nocache": "astromo/connect-nocache#1.1.1",
     "cors": "^2.7.1",
     "debug": "^2.2.0",
     "express": "^4.13.3",
+    "glob": "^6.0.4",
+    "helmet": "^1.1.0",
     "jsonwebtoken": "^5.4.1",
-    "lodash": "^3.10.1",
-    "painless-pbkdf2": "astromo/pbkdf2#v0.1.0"
+    "lodash": "^4.0.0"
   },
   "devDependencies": {
-    "async": "^1.5.0",
-    "big-list-of-naughty-strings": "^1.0.0",
     "mocha": "^2.3.3",
     "supertest": "^1.1.0"
   }

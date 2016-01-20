@@ -1,4 +1,4 @@
-var app = require('./worker')
+var app = require('./server')
 var cluster = require('cluster')
 var debug = require('debug')('auth:master')
 

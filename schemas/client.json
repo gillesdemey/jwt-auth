@@ -3,10 +3,10 @@
   "title": "Client Authentication Request Schema",
   "type": "object",
   "properties": {
-    "username": {
+    "client_id": {
       "type": "string"
     },
-    "password": {
+    "client_secret": {
       "type": "string"
     },
     "grant_type": {
@@ -14,8 +14,8 @@
     }
   },
   "required": [
-    "username",
-    "password",
+    "client_id",
+    "client_secret",
     "grant_type"
   ],
   "additionalProperties": false

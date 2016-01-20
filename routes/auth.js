@@ -1,46 +1,33 @@
-var _ = require('lodash')
-var auth = require('../lib/auth')
-var PBKDF2 = require('painless-pbkdf2')
-var schema = require('../lib/schema')
+'use strict'
 
-// Example user (should be a DB)
-var exampleUser = {
-  email: 'michiel@demey.io',
-  password: 'sha256:100000:o/WYWXz+prVEEK6QyJHy7ZN7pNlngyl4G8MBJM977YE=:17633005a246861907dd71d1de9a4882eb47f67ff752a41110c6e4d71ba34db2',
-  permissions: [
-    'ping'
-  ]
-}
+var ajv = require('ajv')()
+var grants = require('../grants')
+var schemas = require('../lib/schema')
 
 module.exports = function (req, res) {
-  if (_.isEmpty(req.body)) {
-    return res.status(400).end()
+  var grantType = req.body.grant_type
+  var grant = grants[grantType]
+
+  if (!grant) return res.status(400).send('unknown grant_type')
+
+  var validate
+  switch (grantType) {
+    case 'password':
+      validate = schemas.user
+      break
+    case 'client_credentials':
+      validate = schemas.client
+      break
   }
 
-  if (!schema.user(req.body)) {
-    return res.status(400).end()
-  }
+  // validate schema
+  var valid = validate(req.body)
+  if (!valid) return res.status(400).send(ajv.errorsText(validate.errors))
 
-  // Load hash from your DB.
-  var password
-  try {
-    password = new PBKDF2(exampleUser.password)
-  } catch (ex) {
-    return res.status(500).send({ 'error': 'Error parsing password' })
-  }
-
-  password.validate(req.body.password, function (err, valid) {
-    if (err) return res.status(500).end()
-
-    if (!valid || req.body.email !== exampleUser.email) {
-      return res.sendStatus(401)
-    }
-
-    // Add user's permissions
-    req.body.permissions = exampleUser.permissions
-
-    res.json({
-      token: auth.Sign(req.body)
-    })
+  // grant token
+  grant(req.body, function (err, jwt) {
+    if (err) return res.status(err.status || 500).send(err.message)
+    return res.json({ token: jwt })
   })
 }
+
